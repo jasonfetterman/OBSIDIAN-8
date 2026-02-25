@@ -1,0 +1,154 @@
+OBSIDIan-8 V3 – ROS2 PACKAGE STRUCTURE
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. WORKSPACE LAYOUT
+------------------------------------------------------------
+
+Root:
+11_Codebase/obsidian_ws/
+
+Structure:
+
+obsidian_ws/
+  ├── src/
+  │   ├── obsidian_core/
+  │   ├── obsidian_gait/
+  │   ├── obsidian_reactive/
+  │   ├── obsidian_spatial/
+  │   ├── obsidian_mission/
+  │   ├── obsidian_perception/
+  │   ├── obsidian_navigation/
+  │   ├── obsidian_swarm/
+  │   ├── obsidian_docking/
+  │   ├── obsidian_interfaces/
+  │
+  └── launch/
+
+------------------------------------------------------------
+2. PACKAGE RESPONSIBILITIES
+------------------------------------------------------------
+
+obsidian_core
+- System state aggregation
+- Heartbeat publisher
+- Shared utilities
+
+obsidian_gait
+- Tripod gait engine
+- Stair mode control
+- Performance scaling
+
+obsidian_reactive
+- Tilt protection
+- Voltage monitoring
+- Current spike detection
+- Immediate gait override
+
+obsidian_spatial
+- SLAM integration
+- Path planning
+- Map persistence
+
+obsidian_mission
+- Mission state machine
+- Mode transitions
+- Energy-aware overrides
+
+obsidian_perception
+- Camera input handling
+- OpenCV pipeline
+- Object classification
+- Terrain tagging
+
+obsidian_navigation
+- GPS fusion
+- Indoor/outdoor transitions
+- Pose confidence model
+
+obsidian_swarm
+- Position broadcast
+- Sector partitioning
+- Swarm coordination
+
+obsidian_docking
+- Dock search logic
+- AprilTag alignment
+- Charge sequence management
+
+obsidian_interfaces
+- Custom message definitions
+- Service definitions
+- Action definitions
+
+------------------------------------------------------------
+3. NODE ISOLATION RULE
+------------------------------------------------------------
+
+Each package must:
+
+- Contain a single primary node entry point
+- Avoid circular dependencies
+- Communicate only via ROS2 topics/services
+
+------------------------------------------------------------
+4. MESSAGE ARCHITECTURE
+------------------------------------------------------------
+
+Custom messages defined in:
+
+obsidian_interfaces/msg/
+
+Examples:
+
+- SystemState.msg
+- GaitCommand.msg
+- TerrainTag.msg
+- SwarmStatus.msg
+- DockStatus.msg
+
+------------------------------------------------------------
+5. LAUNCH CONFIGURATION
+------------------------------------------------------------
+
+Launch files located in:
+
+obsidian_ws/launch/
+
+Primary launch:
+
+obsidian_v3_launch.py
+
+Launch must:
+
+- Start all required nodes
+- Configure QoS settings
+- Set namespace to /obsidian/
+
+------------------------------------------------------------
+6. DEVELOPMENT STANDARD
+------------------------------------------------------------
+
+Language:
+Python (primary)
+C++ (if performance-critical later)
+
+ROS2 Version:
+Humble (recommended)
+
+------------------------------------------------------------
+7. SYSTEM SIGNATURE
+------------------------------------------------------------
+
+OBSIDIan-8 software structure:
+
+- Modular
+- Clear separation of concerns
+- Safety-isolated
+- Scalable
+- Swarm-capable
+
+------------------------------------------------------------
+END OF PACKAGE STRUCTURE
+------------------------------------------------------------

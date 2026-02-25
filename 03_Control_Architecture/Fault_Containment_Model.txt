@@ -1,0 +1,179 @@
+OBSIDIAN-8 V3 – FAULT CONTAINMENT MODEL
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. DESIGN PHILOSOPHY
+------------------------------------------------------------
+
+Failure must degrade safely.
+
+No single compute failure may result in uncontrolled motion.
+
+Lower deterministic layers must remain stable if higher intelligence fails.
+
+Safety dominance is absolute.
+
+------------------------------------------------------------
+2. FAILURE CLASSES
+------------------------------------------------------------
+
+Class A – Critical Hardware Fault
+- Battery overcurrent
+- BMS cutoff
+- Physical short circuit
+- MOSFET thermal overload
+
+Response:
+Immediate hardware shutdown.
+No software arbitration.
+
+------------------------------------------------------------
+
+Class B – Compute Failure
+- Jetson crash
+- Jetson process lock
+- SLAM freeze
+
+Response:
+Pi detects missed heartbeat.
+Pi commands CROUCH.
+After posture stabilization:
+Pi disables servo rail.
+System enters safe hold.
+
+------------------------------------------------------------
+
+Class C – Energy Degradation
+- Voltage sag
+- High internal resistance
+- Excessive current spikes
+
+Response sequence:
+Reactive layer reduces gait.
+Mission layer forced RETURN_TO_DOCK.
+If sag persists:
+CROUCH state.
+
+------------------------------------------------------------
+
+Class D – Thermal Escalation
+- Jetson >85°C sustained
+- BEC overheating
+- Servo bank overheating
+
+Response sequence:
+Reduce aggression mode.
+Reduce stride frequency.
+If thermal continues rising:
+CROUCH.
+If threshold exceeded:
+Servo rail disable.
+
+------------------------------------------------------------
+
+Class E – Perception Failure
+- SLAM confidence collapse
+- GPS signal loss
+- Depth camera failure
+
+Response:
+Reduce speed.
+Switch to reactive-only navigation.
+If localization unstable:
+Enter CROUCH and await resolution.
+
+------------------------------------------------------------
+
+Class F – Communication Failure
+- Swarm communication loss
+- Remote link loss
+
+Response:
+Continue autonomous mission.
+No mission interruption unless safety impacted.
+
+------------------------------------------------------------
+3. ESCALATION CHAIN
+------------------------------------------------------------
+
+Intelligence Layer (Mission) →
+Spatial Layer →
+Reactive Layer →
+Pi Watchdog →
+Hardware Cutoff
+
+Escalation always flows downward.
+
+No upward override permitted.
+
+------------------------------------------------------------
+4. SAFE STATE DEFINITION
+------------------------------------------------------------
+
+Safe State includes:
+
+- Low CG crouch
+- Servo torque reduced
+- No swing phase active
+- Await manual or system reset
+
+Safe state must be mechanically stable.
+
+------------------------------------------------------------
+5. SERVO RAIL DISABLE SEQUENCE
+------------------------------------------------------------
+
+1. Command CROUCH.
+2. Confirm stable ground contact.
+3. Disable high-side MOSFET.
+4. Log event.
+5. Await reset.
+
+Never cut servo rail mid-swing.
+
+------------------------------------------------------------
+6. ENERGY-DOMINANT FAILSAFE
+------------------------------------------------------------
+
+If projected energy < return-to-dock + 15%:
+
+Mission override → RETURN_TO_DOCK.
+
+If insufficient energy to reach dock:
+
+CROUCH at safe location.
+Log event.
+Await manual recovery.
+
+------------------------------------------------------------
+7. FAULT LOGGING
+------------------------------------------------------------
+
+All fault events must log:
+
+- Timestamp
+- Voltage
+- Current
+- Thermal
+- Mission state
+- Active gait phase
+
+Logs stored locally.
+Exportable for post-mission analysis.
+
+------------------------------------------------------------
+8. DESIGN SIGNATURE
+------------------------------------------------------------
+
+V3 does not attempt to "push through" failure.
+
+It degrades gracefully.
+
+Failure containment is layered,
+deterministic,
+and hardware-backed.
+
+------------------------------------------------------------
+END OF FAULT CONTAINMENT MODEL
+------------------------------------------------------------

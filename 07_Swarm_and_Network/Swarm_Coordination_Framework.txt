@@ -1,0 +1,170 @@
+OBSIDIAN-8 V3 – SWARM COORDINATION FRAMEWORK
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. PURPOSE
+------------------------------------------------------------
+
+Enable multiple OBSIDIAN-8 units to:
+
+- Share positional awareness
+- Partition patrol sectors
+- Avoid overlap
+- Coordinate mission objectives
+- Operate without centralized micromanagement
+
+Swarm coordination is advisory,
+not safety-dominant.
+
+------------------------------------------------------------
+2. POSITION SYNCHRONIZATION
+------------------------------------------------------------
+
+Each unit broadcasts:
+
+- Global RTK position (WGS84 / UTM)
+- Velocity vector
+- Mission state
+- Energy level
+- Swarm role
+
+Synchronization frequency:
+≥5 Hz
+
+Time reference:
+GPS time for cross-unit consistency.
+
+------------------------------------------------------------
+3. SECTOR PARTITIONING
+------------------------------------------------------------
+
+Patrol region divided into:
+
+- Non-overlapping sectors
+- Dynamically adjustable boundaries
+
+Partition algorithm:
+
+Weighted Voronoi-based region assignment
+using unit positions and energy level.
+
+Units automatically rebalance if:
+
+- One unit docks
+- One unit faults
+- One unit leaves sector
+
+------------------------------------------------------------
+4. COLLISION AVOIDANCE
+------------------------------------------------------------
+
+Swarm-level collision avoidance:
+
+Each unit publishes predicted path segment.
+
+Units avoid:
+
+- Entering active path corridor of another unit
+- Crossing within defined safety radius
+
+Reactive layer still dominant for final safety.
+
+------------------------------------------------------------
+5. ROLE ASSIGNMENT
+------------------------------------------------------------
+
+Swarm roles may include:
+
+- Patrol
+- Sentry
+- Scout
+- Relay
+- Reserve
+
+Role selection influenced by:
+
+- Energy level
+- Position
+- Terrain complexity
+- Fault history
+
+------------------------------------------------------------
+6. FAILURE TOLERANCE
+------------------------------------------------------------
+
+If one unit drops from network:
+
+Remaining units:
+
+- Recalculate sectors
+- Redistribute patrol load
+- Log loss event
+
+Swarm never depends on single master node.
+
+------------------------------------------------------------
+7. COMMUNICATION MODEL
+------------------------------------------------------------
+
+Network Layer:
+
+Encrypted communication channel.
+
+Minimum data shared:
+
+- Position
+- Mission state
+- Hazard flags
+
+High-bandwidth data (video) optional.
+
+------------------------------------------------------------
+8. ENERGY-AWARE COORDINATION
+------------------------------------------------------------
+
+Units approaching low energy:
+
+- Signal imminent dock
+- Transfer patrol sector to neighbor
+- Maintain coverage continuity
+
+------------------------------------------------------------
+9. DOCKING DECONFLICT
+------------------------------------------------------------
+
+If multiple units request dock simultaneously:
+
+Priority assigned by:
+
+- Lowest energy level
+- Proximity to dock
+- Fault severity
+
+Queue model implemented.
+
+------------------------------------------------------------
+10. DESIGN PRIORITIES
+------------------------------------------------------------
+
+1. Decentralized coordination
+2. RTK-based global alignment
+3. Minimal bandwidth dependency
+4. Energy-aware redistribution
+5. Reactive safety dominance
+
+------------------------------------------------------------
+11. SYSTEM SIGNATURE
+------------------------------------------------------------
+
+OBSIDIan-8 swarm behavior:
+
+- Is cooperative
+- Is decentralized
+- Is energy-aware
+- Is fault-tolerant
+- Never overrides individual safety logic
+
+------------------------------------------------------------
+END OF SWARM COORDINATION FRAMEWORK
+------------------------------------------------------------

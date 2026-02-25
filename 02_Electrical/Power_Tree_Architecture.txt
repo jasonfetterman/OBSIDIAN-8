@@ -1,0 +1,180 @@
+OBSIDIAN-8 V3 – POWER TREE ARCHITECTURE
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. ENERGY BACKBONE
+------------------------------------------------------------
+
+Deployment Configuration:
+8S LiFePO4 battery pack
+Nominal Voltage: ~25.6V
+Charged Voltage: ~29.2V
+Integrated Smart BMS required.
+
+Development Configuration:
+6S LiPo
+Nominal Voltage: ~22.2V
+
+Battery must provide:
+Sustained locomotion + compute + sensors for 3+ hour mixed-mode mission.
+
+------------------------------------------------------------
+2. PRIMARY POWER FLOW
+------------------------------------------------------------
+
+Battery
+   ↓
+Main Fuse (ANL type, appropriately rated)
+   ↓
+Physical Kill Switch
+   ↓
+Primary Distribution Node (Bus Bar)
+   ↓
+   ├── Servo Power Rail
+   ├── Logic Power Rail
+   └── Dock Charge Interface
+
+All grounds converge at single star-ground reference.
+
+------------------------------------------------------------
+3. SERVO POWER RAIL
+------------------------------------------------------------
+
+Source:
+High-current BEC system (dual redundant recommended)
+
+Target Output:
+7.4V (HV servo compatible)
+
+Supply:
+24 × JX PDI-HV2060MG servos
+
+Peak Expected Current:
+60–70A bursts during aggressive gait
+Stair mode peak must remain below safe threshold.
+
+Servo rail protected by:
+
+- MOSFET high-side switching
+- Pi-controlled hardware kill-line
+- Current sensing (Hall-effect)
+
+Maestro draws signal only.
+Servo current never flows through logic rail.
+
+------------------------------------------------------------
+4. LOGIC POWER RAIL
+------------------------------------------------------------
+
+Source:
+High-efficiency DC-DC buck converter
+
+Output:
+5V @ ≥10A minimum capacity
+
+Supplies:
+
+- Jetson Orin Nano
+- Raspberry Pi
+- Duet 3 6HC
+- RTK module
+- Cameras
+- Network radios
+- IMU
+
+Logic rail isolated from servo rail noise.
+
+------------------------------------------------------------
+5. WATCHDOG KILL-LINE ARCHITECTURE
+------------------------------------------------------------
+
+Raspberry Pi has authority to:
+
+- Disable servo rail MOSFET
+- Force CROUCH prior to power cut
+- Log fault state
+
+Kill-line must be:
+
+Physical hardware line
+NOT software-only command.
+
+This guarantees motion shutdown even if Jetson locks.
+
+------------------------------------------------------------
+6. CURRENT SENSING
+------------------------------------------------------------
+
+Per Bank Monitoring:
+
+- Hall-effect current sensors (≥100A rated)
+- Continuous logging to Pi
+- Overcurrent threshold triggers CROUCH
+
+Data used for:
+
+- Servo degradation detection
+- Stair stress monitoring
+- Energy consumption modeling
+
+------------------------------------------------------------
+7. THERMAL MONITORING
+------------------------------------------------------------
+
+Sensors required at:
+
+- Jetson heatsink
+- BEC units
+- Servo distribution node
+- Battery pack
+
+Thermal escalation:
+
+Normal → Aggression reduction → Crouch → Shutdown
+
+Thermal safety never bypassed.
+
+------------------------------------------------------------
+8. DOCKING POWER INTERFACE
+------------------------------------------------------------
+
+Dock provides:
+
+CC/CV charging profile
+Matched to LiFePO4 pack (29.2V)
+
+Dock Interface Includes:
+
+- Visual alignment marker
+- Physical alignment rails
+- Contact detection
+- Charge enable handshake
+
+Robot must verify:
+
+Correct voltage before charge enable.
+
+------------------------------------------------------------
+9. ENERGY DOMINANCE RULE
+------------------------------------------------------------
+
+If projected energy < return-to-dock + 15% reserve:
+
+Mission layer forced to RETURN_TO_DOCK.
+
+Remote cannot override.
+
+------------------------------------------------------------
+10. DESIGN PRIORITIES
+------------------------------------------------------------
+
+1. Safety isolation
+2. Electrical noise isolation
+3. Deterministic servo supply
+4. Hardware-level override
+5. Clear serviceability
+
+------------------------------------------------------------
+END OF POWER TREE ARCHITECTURE
+------------------------------------------------------------

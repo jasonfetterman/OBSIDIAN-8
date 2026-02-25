@@ -1,0 +1,172 @@
+OBSIDIAN-8 V3 – GAIT ENGINE MODEL
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. DESIGN PHILOSOPHY
+------------------------------------------------------------
+
+Movement must be:
+
+- Deterministic
+- Geometry-aware
+- Energy-aware
+- Stability-prioritized
+
+Motion timing is isolated from AI inference timing.
+
+Servo PWM handled by Maestro.
+
+Gait logic runs in Jetson autonomy layer.
+
+------------------------------------------------------------
+2. PRIMARY GAIT – TRIPOD
+------------------------------------------------------------
+
+Tripod Set A:
+LF, RM, LR
+
+Tripod Set B:
+RF, LM, RR
+
+At any time:
+One tripod supports full body weight.
+Opposing tripod swings.
+
+CG must remain inside support triangle.
+
+------------------------------------------------------------
+3. GAIT PHASE MODEL
+------------------------------------------------------------
+
+Phase 1 – Lift
+- Lift swing tripod to defined height
+- Maintain support tripod torque
+
+Phase 2 – Swing
+- Move swing legs forward
+- Maintain pitch compensation
+
+Phase 3 – Plant
+- Controlled foot placement
+- Confirm contact
+
+Phase 4 – Transfer
+- Shift load to newly planted tripod
+- Repeat cycle
+
+Gait frequency dynamically adjustable.
+
+------------------------------------------------------------
+4. STRIDE PARAMETERS
+------------------------------------------------------------
+
+Normal Mode:
+Moderate stride length
+Moderate lift height (80–120 mm)
+
+Aggression Mode:
+Increased stride length
+Increased frequency
+Higher current draw
+
+Conservation Mode:
+Short stride
+Reduced frequency
+Energy prioritization
+
+------------------------------------------------------------
+5. STAIR MODE
+------------------------------------------------------------
+
+Activated when:
+Depth sensor detects vertical obstacle ≤200 mm.
+
+Behavior:
+
+- Reduce gait frequency
+- Increase lift arc ≥200 mm
+- Shift CG forward before lift
+- Use body pitch compensation
+
+Abort Conditions:
+
+- Tilt > 10°
+- Current spike beyond threshold
+- Voltage sag
+- Foot contact failure
+
+------------------------------------------------------------
+6. LOW-CLEARANCE CROUCH MODE
+------------------------------------------------------------
+
+Activated when:
+
+- Low overhead clearance detected
+- Energy-critical state
+- Fault escalation
+
+Behavior:
+
+- Lower body height
+- Reduce stride length
+- Limit maximum pitch
+
+Crouch is mechanically stable safe state.
+
+------------------------------------------------------------
+7. ENERGY-AWARE GAIT SCALING
+------------------------------------------------------------
+
+If voltage drops below threshold:
+
+- Reduce aggression
+- Shorten stride
+- Increase stability bias
+
+If projected energy < return reserve:
+
+Force RETURN_TO_DOCK.
+
+------------------------------------------------------------
+8. REACTIVE INTERRUPTS
+------------------------------------------------------------
+
+Reactive layer can override gait if:
+
+- Obstacle detected mid-swing
+- Foot contact lost
+- Excessive tilt detected
+- Terrain instability detected
+
+Reactive interrupt pauses gait cycle safely.
+
+------------------------------------------------------------
+9. STABILITY ENFORCEMENT
+------------------------------------------------------------
+
+Before each tripod transfer:
+
+Verify CG projection inside support polygon.
+
+If outside threshold:
+
+Delay transfer.
+Adjust body pitch.
+Reduce stride length.
+
+------------------------------------------------------------
+10. DESIGN SIGNATURE
+------------------------------------------------------------
+
+OBSIDIan-8 gait engine:
+
+- Never relies on servo stall torque
+- Avoids full extension under load
+- Adapts stride based on energy
+- Prioritizes stability over speed
+- Degrades safely under fault conditions
+
+------------------------------------------------------------
+END OF GAIT ENGINE MODEL
+------------------------------------------------------------

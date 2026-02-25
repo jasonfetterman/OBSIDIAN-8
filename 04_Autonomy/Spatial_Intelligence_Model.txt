@@ -1,0 +1,181 @@
+OBSIDIAN-8 V3 – SPATIAL INTELLIGENCE MODEL
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. PURPOSE
+------------------------------------------------------------
+
+Spatial Intelligence provides:
+
+- Localization
+- Mapping
+- Path planning
+- Environmental reasoning
+- Terrain tagging
+
+It operates above the Reactive Core and below Mission Governance.
+
+------------------------------------------------------------
+2. LOCALIZATION STACK
+------------------------------------------------------------
+
+Indoor Mode:
+Primary: Visual SLAM
+Support: IMU
+Support: Leg kinematic odometry
+
+Outdoor Mode:
+Primary: RTK GPS (FIXED state)
+Support: IMU
+Support: SLAM obstacle map
+
+Fusion Method:
+Extended Kalman Filter (EKF)
+
+------------------------------------------------------------
+3. MAP REPRESENTATION
+------------------------------------------------------------
+
+Indoor:
+Local coordinate SLAM map
+Feature-based + occupancy grid
+
+Outdoor:
+Global coordinate system (WGS84 / UTM)
+Anchored by RTK
+
+Persistent map storage required.
+
+------------------------------------------------------------
+4. TERRAIN TAGGING
+------------------------------------------------------------
+
+Each map segment classified as:
+
+- Flat
+- Inclined
+- Stair
+- Uneven
+- Obstacle zone
+
+Terrain classification influences:
+
+- Gait frequency
+- Lift height
+- Aggression mode eligibility
+
+------------------------------------------------------------
+5. PATH PLANNING
+------------------------------------------------------------
+
+Planner Type:
+A* or D* Lite (grid-based)
+
+Planning Constraints:
+
+- Avoid CG instability
+- Avoid steep incline beyond limits
+- Avoid high-risk zones if energy low
+
+Path cost weighted by:
+
+- Distance
+- Terrain difficulty
+- Energy consumption estimate
+- Localization confidence
+
+------------------------------------------------------------
+6. TRANSITION LOGIC
+------------------------------------------------------------
+
+Indoor → Outdoor:
+
+RTK weight increases as signal stabilizes.
+
+Outdoor → Indoor:
+
+SLAM weight increases.
+GPS weight reduced.
+
+Transition must be smooth.
+No sudden coordinate jumps.
+
+------------------------------------------------------------
+7. CONFIDENCE MODEL
+------------------------------------------------------------
+
+Spatial confidence derived from:
+
+- SLAM feature density
+- RTK FIX status
+- IMU drift rate
+- Map consistency
+
+If confidence below threshold:
+
+Speed reduced.
+Aggression disabled.
+
+If confidence collapse:
+
+Escalate to Reactive Core.
+Possible CROUCH.
+
+------------------------------------------------------------
+8. DOCK RETURN LOGIC
+------------------------------------------------------------
+
+Return-to-dock path planning:
+
+Prioritized over all mission tasks.
+
+Dock position stored as:
+
+Global coordinate (outdoor)
+Local anchor (indoor)
+
+Dock approach transitions to:
+
+Vision-based fine alignment.
+
+------------------------------------------------------------
+9. SWARM INTEGRATION
+------------------------------------------------------------
+
+Spatial Intelligence shares:
+
+- Position
+- Velocity vector
+- Patrol sector boundary
+
+Swarm units avoid overlap via:
+
+Sector partitioning algorithm.
+
+------------------------------------------------------------
+10. DESIGN PRIORITIES
+------------------------------------------------------------
+
+1. Position accuracy
+2. Smooth transitions
+3. Energy-aware routing
+4. Stability-safe path generation
+5. Robust degradation handling
+
+------------------------------------------------------------
+11. SYSTEM SIGNATURE
+------------------------------------------------------------
+
+OBSIDIan-8 does not treat navigation as separate from mechanics.
+
+Spatial planning respects:
+
+- Torque limits
+- CG envelope
+- Energy budget
+- Reactive constraints
+
+------------------------------------------------------------
+END OF SPATIAL INTELLIGENCE MODEL
+------------------------------------------------------------

@@ -1,0 +1,182 @@
+OBSIDIAN-8 V3 – MISSION GOVERNANCE MODEL
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. PURPOSE
+------------------------------------------------------------
+
+Mission Governance is the highest autonomy layer.
+
+It defines:
+
+- Mission selection
+- Mode switching
+- Patrol behavior
+- Follow behavior
+- Dock return logic
+- Swarm coordination behavior
+
+It does NOT override safety or reactive constraints.
+
+------------------------------------------------------------
+2. AUTHORITY POSITION
+------------------------------------------------------------
+
+Authority hierarchy:
+
+Hardware Protection
+→ Watchdog
+→ Reactive Core
+→ Spatial Intelligence
+→ Mission Governance
+
+Mission layer is lowest authority in safety chain.
+
+------------------------------------------------------------
+3. MISSION STATES
+------------------------------------------------------------
+
+Primary States:
+
+IDLE
+PATROL
+ADAPTIVE_PATROL
+FOLLOW_TARGET
+SENTRY
+RETURN_TO_DOCK
+SWARM_MODE
+MANUAL_OVERRIDE
+
+------------------------------------------------------------
+4. PATROL MODE
+------------------------------------------------------------
+
+Behavior:
+
+- Follow predefined waypoints
+- Avoid obstacles via Spatial layer
+- Adjust stride based on terrain
+- Maintain energy reserve margin
+
+Adaptive Patrol:
+
+Waypoints adjusted dynamically
+based on obstacle memory and terrain map.
+
+------------------------------------------------------------
+5. FOLLOW MODE
+------------------------------------------------------------
+
+Uses:
+
+- Object classification
+- Vision tracking
+- Spatial tracking
+
+Constraints:
+
+- Maintain safe distance
+- Disable aggression mode
+- Respect energy reserve rules
+
+------------------------------------------------------------
+6. SENTRY MODE
+------------------------------------------------------------
+
+Stationary scanning behavior.
+
+Cycle:
+
+- Rotate body slightly
+- Scan environment
+- Classify objects
+- Log detections
+
+Minimal energy consumption.
+
+------------------------------------------------------------
+7. RETURN TO DOCK
+------------------------------------------------------------
+
+Triggered by:
+
+- Low energy threshold
+- Manual request
+- Scheduled maintenance
+- Fault escalation
+
+Overrides all mission states except hardware failure.
+
+------------------------------------------------------------
+8. SWARM MODE
+------------------------------------------------------------
+
+Multiple units coordinate via:
+
+- Shared global position (RTK)
+- Sector assignment
+- Collision avoidance
+
+Swarm behavior does NOT override:
+
+Reactive Core or safety rules.
+
+------------------------------------------------------------
+9. ENERGY DOMINANCE RULE
+------------------------------------------------------------
+
+If projected energy < return-to-dock + 15%:
+
+Mission layer automatically transitions to RETURN_TO_DOCK.
+
+Remote cannot override.
+
+------------------------------------------------------------
+10. REMOTE COMMAND MODEL
+------------------------------------------------------------
+
+Remote interface may:
+
+- Request mission change
+- Request dock
+- Request idle
+- Request shutdown
+
+Remote may NOT:
+
+- Directly control servos
+- Override safety
+- Override energy constraints
+- Disable watchdog
+
+Autonomy remains sovereign.
+
+------------------------------------------------------------
+11. STATE TRANSITION LOGIC
+------------------------------------------------------------
+
+Transitions occur only if:
+
+- Spatial confidence above threshold
+- Energy above safe margin
+- No active reactive fault
+
+Invalid transition requests are rejected.
+
+------------------------------------------------------------
+12. DESIGN SIGNATURE
+------------------------------------------------------------
+
+OBSIDIan-8 Mission Governance:
+
+- Is intent-driven
+- Energy-aware
+- Safety-dominated
+- Swarm-capable
+- Fault-aware
+- Deterministic in state transitions
+
+------------------------------------------------------------
+END OF MISSION GOVERNANCE MODEL
+------------------------------------------------------------

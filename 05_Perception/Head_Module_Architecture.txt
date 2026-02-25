@@ -1,0 +1,145 @@
+OBSIDIAN-8 V3 – HEAD MODULE ARCHITECTURE
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. PURPOSE
+------------------------------------------------------------
+
+The Head Module is the primary perception hub of OBSIDIAN-8 V3.
+
+It provides:
+
+- 360° situational awareness
+- Depth perception
+- Terrain classification
+- Object detection
+- RTK antenna mount point
+
+Design priority:
+Sensor stability and vibration isolation.
+
+------------------------------------------------------------
+2. SENSOR CONFIGURATION
+------------------------------------------------------------
+
+RGB Cameras: 6 total
+
+Layout:
+- Front Left
+- Front Right
+- Rear Left
+- Rear Right
+- Left Side
+- Right Side
+
+Field of View:
+Overlapping coverage to avoid blind zones.
+
+Depth Camera:
+Front-facing, centered
+Intel RealSense class
+
+IMU:
+Mounted rigidly to central head frame.
+
+RTK Antenna:
+Top-mounted
+Clear sky exposure
+EMI shielded from compute stack
+
+------------------------------------------------------------
+3. STRUCTURAL DESIGN
+------------------------------------------------------------
+
+Head module mounted above central CG plane.
+
+Mounting Requirements:
+
+- Vibration-damped
+- Rigid frame connection
+- Isolated from high-frequency servo vibration
+
+Printed shell may be used,
+but internal frame must be rigid.
+
+------------------------------------------------------------
+4. CAMERA GEOMETRY
+------------------------------------------------------------
+
+Front cameras angled slightly outward
+to expand horizontal FOV.
+
+Side cameras cover mid-peripheral zones.
+
+Rear cameras support swarm awareness
+and retreat navigation.
+
+Overlap ensures:
+
+- Robust object tracking
+- Redundant detection
+- Smooth SLAM feature extraction
+
+------------------------------------------------------------
+5. DEPTH INTEGRATION
+------------------------------------------------------------
+
+Depth camera provides:
+
+- Obstacle height estimation
+- Stair rise detection
+- Low-clearance detection
+- Terrain segmentation
+
+Depth fused with RGB in perception pipeline.
+
+------------------------------------------------------------
+6. CABLE ROUTING
+------------------------------------------------------------
+
+All cables:
+
+- Strain relieved
+- Routed through protected channel
+- Shielded where necessary
+
+No loose hanging harness.
+
+Serviceability required.
+
+------------------------------------------------------------
+7. THERMAL CONSIDERATIONS
+------------------------------------------------------------
+
+Head module must not trap heat.
+
+Ventilation required.
+
+RTK antenna must remain thermally stable
+for precision retention.
+
+------------------------------------------------------------
+8. DESIGN PRIORITIES
+------------------------------------------------------------
+
+1. Sensor stability
+2. Vibration isolation
+3. Wide FOV coverage
+4. Serviceable wiring
+5. Clean EMI separation
+
+------------------------------------------------------------
+9. SYSTEM SIGNATURE
+------------------------------------------------------------
+
+Head module is not decorative.
+
+It is a stabilized perception platform.
+
+Sensor accuracy and mounting integrity
+directly affect navigation performance.
+
+------------------------------------------------------------
+END OF HEAD MODULE ARCHITECTURE
+------------------------------------------------------------
