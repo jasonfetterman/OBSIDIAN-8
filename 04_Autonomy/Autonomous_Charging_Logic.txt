@@ -1,0 +1,181 @@
+OBSIDIAN-8 V3 – AUTONOMOUS CHARGING LOGIC
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. PURPOSE
+------------------------------------------------------------
+
+Enable fully autonomous return-to-dock,
+alignment,
+connection,
+and charge verification.
+
+Charging must be:
+
+- Energy-aware
+- Safety-dominated
+- Precision-aligned
+- Fault tolerant
+
+------------------------------------------------------------
+2. DOCK TRIGGER CONDITIONS
+------------------------------------------------------------
+
+Dock sequence initiated when:
+
+- Energy < return threshold + 15% reserve
+- Manual remote dock request
+- Scheduled maintenance window
+- Fault escalation requiring shutdown
+
+Dock override supersedes all mission states.
+
+------------------------------------------------------------
+3. DOCK LOCALIZATION
+------------------------------------------------------------
+
+Outdoor:
+Use RTK global coordinate.
+
+Indoor:
+Use stored SLAM anchor point.
+
+Transition to visual alignment within 2–3 meters.
+
+------------------------------------------------------------
+4. VISUAL ALIGNMENT PHASE
+------------------------------------------------------------
+
+Dock marker:
+AprilTag-based detection.
+
+Process:
+
+- Detect tag
+- Estimate relative pose
+- Compute approach vector
+- Reduce speed to precision mode
+
+Precision mode:
+Reduced stride length
+Reduced gait frequency
+Increased stability bias
+
+------------------------------------------------------------
+5. FINAL APPROACH
+------------------------------------------------------------
+
+Within 0.5 meters:
+
+Switch to fine alignment control.
+
+Steps:
+
+1. Center robot on docking rails
+2. Confirm lateral alignment
+3. Lower CG slightly for stability
+4. Move forward slowly until contact
+
+Contact confirmation via:
+
+- Electrical detection
+- Mechanical switch
+- Current sensing
+
+------------------------------------------------------------
+6. CHARGE ENABLE SEQUENCE
+------------------------------------------------------------
+
+Upon contact:
+
+1. Verify dock voltage matches expected profile.
+2. Confirm battery pack temperature within range.
+3. Enable charge handshake.
+4. Monitor charge current.
+
+Charging profile:
+
+CC/CV matched to 8S LiFePO4 pack (29.2V max).
+
+------------------------------------------------------------
+7. CHARGE MONITORING
+------------------------------------------------------------
+
+Monitor:
+
+- Pack voltage
+- Pack temperature
+- Charge current
+- BMS status
+
+If abnormal:
+
+Disable charge.
+Log event.
+Notify remote system.
+
+------------------------------------------------------------
+8. CHARGE COMPLETION
+------------------------------------------------------------
+
+When battery reaches:
+
+100% or defined upper threshold:
+
+1. Disable charge enable.
+2. Maintain docked idle state.
+3. Enter maintenance or standby mode.
+
+------------------------------------------------------------
+9. DOCK EXIT LOGIC
+------------------------------------------------------------
+
+On mission restart:
+
+1. Verify sufficient charge.
+2. Retract from dock slowly.
+3. Transition to IDLE.
+4. Await mission command.
+
+------------------------------------------------------------
+10. FAILURE HANDLING
+------------------------------------------------------------
+
+If dock not detected:
+
+- Reattempt search pattern.
+- Expand search radius gradually.
+- If energy critical → CROUCH safely.
+
+If contact unstable:
+
+- Retract slightly.
+- Realign.
+- Retry up to defined attempt limit.
+
+------------------------------------------------------------
+11. DESIGN PRIORITIES
+------------------------------------------------------------
+
+1. Precision alignment
+2. Electrical safety validation
+3. Battery thermal protection
+4. Repeatable docking accuracy
+5. Clear fault logging
+
+------------------------------------------------------------
+12. SYSTEM SIGNATURE
+------------------------------------------------------------
+
+OBSIDIan-8 charging is:
+
+- Fully autonomous
+- Vision-aligned
+- Electrically validated
+- Energy-dominant
+- Fault aware
+
+------------------------------------------------------------
+END OF AUTONOMOUS CHARGING LOGIC
+------------------------------------------------------------

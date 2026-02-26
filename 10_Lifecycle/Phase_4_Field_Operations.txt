@@ -1,0 +1,87 @@
+OBSIDIAN-8 V3
+Phase_4_Field_Operations.txt
+Revision: V3.2
+Status: Authoritative
+
+------------------------------------------------------------
+1. PURPOSE
+------------------------------------------------------------
+
+Define operational governance, maintenance discipline,
+field monitoring, and performance tracking during active deployment.
+
+------------------------------------------------------------
+2. OPERATIONAL CONTROL
+------------------------------------------------------------
+
+Each deployed unit must maintain:
+
+- Serialized configuration record
+- Software version lock
+- Maintenance log
+- Fault history
+
+------------------------------------------------------------
+3. MAINTENANCE MODEL
+------------------------------------------------------------
+
+Maintenance intervals defined for:
+
+- Fastener inspection
+- Harness inspection
+- Battery health verification
+- Servo calibration check
+- Thermal inspection
+
+Failure to perform maintenance invalidates deployment compliance.
+
+------------------------------------------------------------
+4. FIELD MONITORING
+------------------------------------------------------------
+
+Required telemetry:
+
+- Energy state
+- Fault events
+- Authority transitions
+- Thermal excursions
+- Usage hours
+
+Critical events require centralized logging.
+
+------------------------------------------------------------
+5. INCIDENT RESPONSE
+------------------------------------------------------------
+
+Critical incident triggers:
+
+- Immediate isolation
+- Root cause analysis
+- Corrective action documentation
+- Fleet-level advisory if systemic
+
+------------------------------------------------------------
+6. PERFORMANCE METRICS
+------------------------------------------------------------
+
+Track:
+
+- MTBF
+- Mission success rate
+- Energy efficiency
+- Docking success rate
+- Fault frequency
+
+------------------------------------------------------------
+7. EXIT CRITERIA
+------------------------------------------------------------
+
+Phase 4 continues until:
+
+- Product lifecycle upgrade initiated
+- Platform retired
+- Phase 5 triggered
+
+------------------------------------------------------------
+END OF FILE
+------------------------------------------------------------

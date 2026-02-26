@@ -1,0 +1,196 @@
+OBSIDIAN-8 V3
+Phase_1_Prototype_Validation.txt
+Revision: V3.2
+Status: Authoritative
+
+------------------------------------------------------------
+1. PURPOSE
+------------------------------------------------------------
+
+Define validation activities required to transition
+from conceptual architecture (Phase 0)
+to production-ready architecture freeze (Phase 2).
+
+Phase 1 verifies:
+
+- Mechanical integrity
+- Electrical stability
+- Control authority correctness
+- Motion reliability
+- Fault containment
+- Energy model validity
+
+Prototype units are not production units.
+
+
+------------------------------------------------------------
+2. ENTRY CRITERIA
+------------------------------------------------------------
+
+Prototype build complete.
+
+Minimum configuration:
+
+- Full mechanical frame
+- Operational power system
+- Reactive controller functional
+- Mission stack functional
+- Watchdog operational
+- Kill-line verified
+
+
+------------------------------------------------------------
+3. VALIDATION CATEGORIES
+------------------------------------------------------------
+
+3.1 Mechanical Validation
+
+Tests required:
+
+- Static load test
+- Torsional deflection test
+- Fastener retention inspection
+- Vibration endurance test
+- Impact tolerance test (within deployment envelope)
+
+Failure of structural integrity prohibits continuation.
+
+
+------------------------------------------------------------
+
+3.2 Electrical Validation
+
+Verify:
+
+- Voltage stability under load
+- Brownout resistance
+- Regulator thermal stability
+- Servo rail isolation
+- BMS cutoff functionality
+
+Kill-line must disable servo rail within defined latency.
+
+
+------------------------------------------------------------
+
+3.3 Control Authority Validation
+
+Verify:
+
+- Layered authority enforcement
+- Reactive override dominance
+- Remote supervisory limits
+- Heartbeat timeout response
+- Authority mismatch detection
+
+No dual-authority condition permitted.
+
+
+------------------------------------------------------------
+
+3.4 Motion Validation
+
+Perform:
+
+- Stand stability test
+- Walking test (flat terrain)
+- Turning test
+- Slope test within limit
+- Obstacle step test
+
+Reactive STOP must engage under induced instability.
+
+
+------------------------------------------------------------
+
+3.5 Energy Model Validation
+
+Test:
+
+- Controlled discharge curve
+- SOC estimation accuracy
+- Low-energy return-to-safe behavior
+- Thermal rise under sustained load
+- BMS protection enforcement
+
+System must not brownout under controlled test.
+
+
+------------------------------------------------------------
+
+3.6 Fault Injection Testing
+
+Simulate:
+
+- Mission crash
+- Reactive crash
+- Remote disconnect
+- Sensor dropout
+- Overcurrent condition
+- Thermal overlimit
+
+Expected result:
+
+Deterministic STOP or kill-line activation.
+
+
+------------------------------------------------------------
+4. DATA COLLECTION
+------------------------------------------------------------
+
+Log:
+
+- Current draw profiles
+- Temperature profiles
+- Fault codes
+- Authority transitions
+- Terrain classification behavior
+
+Data must support refinement before architecture freeze.
+
+
+------------------------------------------------------------
+5. FAILURE CRITERIA
+------------------------------------------------------------
+
+Prototype validation fails if:
+
+- Uncontrolled motion observed
+- Frame deformation occurs
+- Brownout causes instability
+- Authority conflict unresolved
+- Kill-line fails to disable motion
+- Repeatable fault without mitigation
+
+
+------------------------------------------------------------
+6. EXIT CRITERIA
+------------------------------------------------------------
+
+Phase 1 complete when:
+
+- All validation tests pass
+- Failure modes characterized
+- Control authority verified
+- Energy model calibrated
+- No critical open defects remain
+
+Architecture freeze authorized only after formal review.
+
+
+------------------------------------------------------------
+7. DESIGN INTENT
+------------------------------------------------------------
+
+Phase 1 ensures OBSIDIAN-8 V3:
+
+- Functions safely as a complete system
+- Demonstrates deterministic behavior
+- Contains faults within defined boundaries
+- Provides empirical basis for industrialization
+
+Prototype validation precedes production discipline.
+
+------------------------------------------------------------
+END OF FILE
+------------------------------------------------------------

@@ -1,0 +1,153 @@
+OBSIDIAN-8 V3 – GEOMETRY MODEL
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. CORE DIMENSIONS
+------------------------------------------------------------
+
+Standing Height (Neutral): 1143 mm
+Target Total Mass: ≤ 20 kg
+Crouch Height: ~680 mm CG reference
+Maximum Stair Rise: 200 mm
+
+Body Configuration:
+Octagonal 2020 aluminum extrusion frame
+
+------------------------------------------------------------
+2. BODY STRUCTURE
+------------------------------------------------------------
+
+Frame Type:
+2020 aluminum extrusion (8-sided central core)
+
+Central Electronics Plane:
+Approx. 300 mm diameter mounting plate
+Material: 3 mm aluminum or 5 mm polycarbonate
+
+Leg Mounting:
+Reinforced 3–5 mm aluminum or reinforced printed plates
+
+Structural Design Goal:
+Minimize torsional flex during tripod gait.
+
+------------------------------------------------------------
+3. LEG GEOMETRY
+------------------------------------------------------------
+
+Per Leg:
+3 DOF configuration
+
+Segments:
+Coxa
+Femur
+Tibia
+
+Design Bias:
+Long tibia for stair clearance
+Moderate femur for torque efficiency
+Coxa width optimized for lateral stability
+
+------------------------------------------------------------
+4. NEUTRAL STANCE GEOMETRY
+------------------------------------------------------------
+
+Neutral Stance Requirements:
+
+- Feet positioned for maximum stability polygon
+- CG centered within 50 mm of geometric center
+- No servo near stall torque at neutral
+- Tilt tolerance: ≤ 5° in neutral
+
+Stance Polygon:
+Must fully enclose CG projection during static posture.
+
+------------------------------------------------------------
+5. TRIPOD GAIT GEOMETRY
+------------------------------------------------------------
+
+Tripod Sets:
+Set A: LF, RM, LR
+Set B: RF, LM, RR
+
+Lift Height (Normal Mode): ~80–120 mm
+Lift Height (Stair Mode): ~200 mm
+
+Stride Length:
+Scaled based on voltage and performance mode.
+
+Design Requirement:
+No CG excursion outside support triangle.
+
+------------------------------------------------------------
+6. STAIR MODE GEOMETRY
+------------------------------------------------------------
+
+Front Tripod:
+Increased lift arc to ≥ 200 mm
+
+Body Pitch Compensation:
+Forward CG shift before rear tripod lift.
+
+Maximum Safe Pitch:
+≤ 10° sustained during stair ascent.
+
+Abort Conditions:
+- Excessive tilt
+- Current > threshold
+- Voltage sag
+
+------------------------------------------------------------
+7. HEAD MODULE GEOMETRY
+------------------------------------------------------------
+
+Head Position:
+Forward-biased mount above CG plane.
+
+Contains:
+- 6 RGB cameras (wide field coverage)
+- 1 depth camera
+- IMU
+- RTK antenna mount (top surface, clear sky exposure)
+
+Cable Routing:
+Strain-relieved through protected channel to central electronics plane.
+
+------------------------------------------------------------
+8. CG TARGET MODEL
+------------------------------------------------------------
+
+Primary CG Target:
+Within central octagon.
+
+Vertical CG:
+As low as practical while preserving stair clearance.
+
+Battery Placement:
+Lowest practical mounting position.
+
+Heavy Compute Placement:
+Centralized and thermally isolated.
+
+------------------------------------------------------------
+9. DESIGN CONSTRAINTS
+------------------------------------------------------------
+
+- No structural member may flex enough to disturb SLAM alignment.
+- No servo horn shall be load-bearing without reinforcement.
+- Bearing-supported joints required at primary torque transfer points.
+- Printed components must not carry primary torsional loads.
+
+------------------------------------------------------------
+10. DESIGN PRIORITIES
+------------------------------------------------------------
+
+1. Stability under load
+2. Predictable CG behavior
+3. Stair safety
+4. Cable protection
+5. Modular serviceability
+
+------------------------------------------------------------
+END OF GEOMETRY MODEL
+------------------------------------------------------------

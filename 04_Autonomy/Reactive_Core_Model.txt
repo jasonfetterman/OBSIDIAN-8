@@ -1,0 +1,173 @@
+OBSIDIAN-8 V3 – REACTIVE CORE MODEL
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. PURPOSE
+------------------------------------------------------------
+
+The Reactive Core is the real-time stability and safety layer.
+
+It operates below Spatial Intelligence and Mission Governance.
+
+It may override both.
+
+Reactive logic must execute faster than high-level planning.
+
+------------------------------------------------------------
+2. RESPONSIBILITIES
+------------------------------------------------------------
+
+- Immediate obstacle avoidance
+- Foot contact validation
+- Tilt monitoring
+- Voltage monitoring
+- Current spike detection
+- Thermal enforcement
+- Stair abort handling
+
+Reactive Core enforces stability envelope.
+
+------------------------------------------------------------
+3. INPUT SOURCES
+------------------------------------------------------------
+
+- IMU (roll, pitch, yaw)
+- Depth camera obstacle map
+- Current sensors
+- Voltage sensors
+- Servo feedback
+- SLAM confidence flag
+- RTK status
+
+------------------------------------------------------------
+4. OBSTACLE INTERRUPT
+------------------------------------------------------------
+
+If obstacle detected within defined safety radius:
+
+- Pause swing phase
+- Recalculate foot placement
+- Adjust body pitch
+- Resume motion only if stable
+
+If persistent blockage:
+Escalate to Spatial layer for path replanning.
+
+------------------------------------------------------------
+5. TILT PROTECTION
+------------------------------------------------------------
+
+Thresholds:
+
+Normal tilt limit: ≤ 5°
+Stair tilt limit: ≤ 10°
+
+If tilt exceeds threshold:
+
+- Halt swing phase
+- Shift CG back toward center
+- Reduce stride length
+- If unstable → CROUCH
+
+------------------------------------------------------------
+6. CURRENT SPIKE PROTECTION
+------------------------------------------------------------
+
+If servo current exceeds dynamic threshold:
+
+- Reduce aggression mode
+- Shorten stride
+- Slow gait frequency
+
+If spike persists:
+
+Escalate to CROUCH.
+
+------------------------------------------------------------
+7. VOLTAGE SAG PROTECTION
+------------------------------------------------------------
+
+If voltage drops below threshold:
+
+- Switch to conservation mode
+- Shorten stride
+- Force RETURN_TO_DOCK
+
+If voltage critical:
+
+Enter CROUCH state.
+
+------------------------------------------------------------
+8. THERMAL PROTECTION
+------------------------------------------------------------
+
+If Jetson >85°C sustained:
+
+- Reduce processing load
+- Reduce aggression mode
+
+If BEC or servo rail overheating:
+
+Reduce gait frequency.
+
+If thermal exceeds hard limit:
+
+CROUCH.
+Await cooldown.
+
+------------------------------------------------------------
+9. SLAM CONFIDENCE FAILURE
+------------------------------------------------------------
+
+If SLAM confidence below threshold:
+
+- Reduce speed
+- Increase stability bias
+- Disable aggression mode
+
+If localization lost completely:
+
+Enter safe patrol mode.
+If unstable → CROUCH.
+
+------------------------------------------------------------
+10. PRIORITY ORDER
+------------------------------------------------------------
+
+Reactive Core authority exceeds:
+
+- Spatial Intelligence
+- Mission Governance
+- Remote commands
+
+Reactive Core cannot override:
+
+- Watchdog kill-line
+- BMS hardware cutoff
+
+------------------------------------------------------------
+11. SAFE STATE ENTRY
+------------------------------------------------------------
+
+CROUCH sequence:
+
+1. Lower CG
+2. Confirm ground contact
+3. Reduce torque output
+4. Await further instruction
+
+------------------------------------------------------------
+12. DESIGN SIGNATURE
+------------------------------------------------------------
+
+Reactive Core ensures:
+
+- Stability before intelligence
+- Energy awareness before mission intent
+- Deterministic interruption handling
+- No uncontrolled motion
+
+------------------------------------------------------------
+END OF REACTIVE CORE MODEL
+------------------------------------------------------------

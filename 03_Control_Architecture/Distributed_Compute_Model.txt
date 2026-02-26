@@ -1,0 +1,179 @@
+OBSIDIAN-8 V3 – DISTRIBUTED COMPUTE MODEL
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. ARCHITECTURE OVERVIEW
+------------------------------------------------------------
+
+OBSIDIan-8 V3 uses a distributed, layered compute architecture.
+
+Compute Nodes:
+
+1. Jetson Orin Nano – Primary Intelligence
+2. Raspberry Pi – Supervisory Watchdog
+3. Duet 3 6HC – Hardware IO Bridge
+4. Pololu Maestro – Deterministic Servo Controller
+
+Control authority is hierarchical.
+No single compute node has total authority.
+
+------------------------------------------------------------
+2. JETSON ORIN NANO – PRIMARY INTELLIGENCE
+------------------------------------------------------------
+
+Responsibilities:
+
+- SLAM
+- RTK GPS fusion
+- Persistent mapping
+- Path planning (A*, D*)
+- Terrain classification
+- Object detection (OpenCV + ML)
+- Mission governance
+- Swarm coordination
+- Dock alignment logic
+
+Jetson does NOT:
+
+- Directly control high-current hardware
+- Override watchdog authority
+- Control servo PWM timing
+
+Motion timing is isolated.
+
+------------------------------------------------------------
+3. RASPBERRY PI – SUPERVISORY WATCHDOG
+------------------------------------------------------------
+
+Authority Level: Above Jetson.
+
+Responsibilities:
+
+- Monitor Jetson heartbeat
+- Monitor voltage
+- Monitor current sensors
+- Monitor thermal sensors
+- Control hardware kill-line to servo MOSFET
+- Log faults
+- Force CROUCH state
+
+If Jetson heartbeat fails:
+Pi executes controlled shutdown sequence.
+
+Pi cannot override BMS.
+
+------------------------------------------------------------
+4. DUET 3 6HC – HARDWARE BRIDGE
+------------------------------------------------------------
+
+Responsibilities:
+
+- Sensor aggregation
+- IO routing
+- Hardware abstraction
+- Relay high-level motion commands to Maestro
+- Poll critical hardware signals
+
+Duet isolates hardware from high-level compute instability.
+
+------------------------------------------------------------
+5. POLOLU MAESTRO – SERVO EXECUTION
+------------------------------------------------------------
+
+Responsibilities:
+
+- Deterministic PWM generation
+- 24-channel servo control
+- Motion pulse isolation
+
+Maestro receives:
+
+- Target positions
+- Timing instructions
+
+Maestro does NOT:
+
+- Perform AI
+- Perform planning
+- Perform safety logic
+
+Servo timing must remain stable regardless of AI load.
+
+------------------------------------------------------------
+6. HEARTBEAT PROTOCOL
+------------------------------------------------------------
+
+Jetson → Pi:
+
+Heartbeat interval: ≤100 ms
+
+Missed heartbeat threshold:
+>500 ms triggers fault protocol.
+
+Upon fault:
+
+1. Pi commands CROUCH.
+2. Wait for stable posture.
+3. Disable servo rail.
+4. Log event.
+
+------------------------------------------------------------
+7. FAILURE ISOLATION PRINCIPLE
+------------------------------------------------------------
+
+If Jetson fails:
+Reactive safety remains.
+
+If Pi fails:
+Jetson continues operation, but without hardware kill authority.
+
+If Duet fails:
+Motion inhibited.
+
+If Maestro fails:
+Motion ceases safely.
+
+Each layer fails independently.
+
+------------------------------------------------------------
+8. DATA FLOW MODEL
+------------------------------------------------------------
+
+Sensors → Duet → Jetson  
+Jetson → Spatial Intelligence → Reactive Core → Duet → Maestro  
+
+Pi monitors:
+
+- Jetson
+- Voltage
+- Current
+- Thermal
+
+Remote commands → Mission layer only.
+
+------------------------------------------------------------
+9. DESIGN PRIORITIES
+------------------------------------------------------------
+
+1. Deterministic motion isolation
+2. Hardware-level override
+3. Clear authority boundaries
+4. No single point of catastrophic failure
+5. Serviceable modularity
+
+------------------------------------------------------------
+10. SYSTEM SIGNATURE
+------------------------------------------------------------
+
+V3 is defined by:
+
+- Distributed control
+- Layered autonomy
+- Hardware watchdog dominance
+- AI decoupled from motion timing
+- Energy-aware safety enforcement
+
+------------------------------------------------------------
+END OF DISTRIBUTED COMPUTE MODEL
+------------------------------------------------------------

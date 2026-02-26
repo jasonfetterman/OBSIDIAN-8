@@ -1,0 +1,69 @@
+OBSIDIAN-8 V3
+Phase_5_Upgrade_and_Modernization.txt
+Revision: V3.2
+Status: Authoritative
+
+------------------------------------------------------------
+1. PURPOSE
+------------------------------------------------------------
+
+Define structured upgrade path for hardware, firmware,
+and software modernization.
+
+------------------------------------------------------------
+2. UPGRADE CATEGORIES
+------------------------------------------------------------
+
+- Software revision
+- Firmware update
+- Sensor replacement
+- Battery chemistry revision
+- Compute hardware upgrade
+
+------------------------------------------------------------
+3. CHANGE CONTROL
+------------------------------------------------------------
+
+All upgrades require:
+
+- Impact analysis
+- Regression testing
+- Version increment
+- Documentation update
+
+Class A changes require full re-validation.
+
+------------------------------------------------------------
+4. BACKWARD COMPATIBILITY
+------------------------------------------------------------
+
+Upgrades must preserve:
+
+- Authority model
+- Safety hierarchy
+- Message definitions
+- Kill-line enforcement
+
+------------------------------------------------------------
+5. FIELD ROLLOUT
+------------------------------------------------------------
+
+Upgrade rollout must be:
+
+- Controlled
+- Logged
+- Reversible where possible
+
+------------------------------------------------------------
+6. EXIT CRITERIA
+------------------------------------------------------------
+
+Modernization cycle complete when:
+
+- Fleet updated
+- Validation complete
+- Documentation synchronized
+
+------------------------------------------------------------
+END OF FILE
+------------------------------------------------------------

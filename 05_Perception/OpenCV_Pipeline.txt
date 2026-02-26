@@ -1,0 +1,160 @@
+OBSIDIAN-8 V3 – OPENCV PIPELINE
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. PURPOSE
+------------------------------------------------------------
+
+The OpenCV pipeline provides:
+
+- Real-time object detection
+- Terrain segmentation
+- Feature extraction for SLAM
+- Dock alignment detection
+- Target tracking
+
+Runs on Jetson Orin Nano.
+
+------------------------------------------------------------
+2. CAMERA INPUT STREAMS
+------------------------------------------------------------
+
+RGB Cameras (6):
+
+- Multi-stream capture
+- Synchronized timestamps
+- Resolution optimized for latency vs accuracy balance
+
+Depth Camera:
+
+- Front-facing depth stream
+- Obstacle distance estimation
+- Stair detection
+
+All streams must support hardware timestamping.
+
+------------------------------------------------------------
+3. PROCESSING PIPELINE
+------------------------------------------------------------
+
+Stage 1 – Frame Acquisition
+- Buffer synchronized frames
+- Verify timestamp integrity
+
+Stage 2 – Preprocessing
+- Resize for inference
+- Normalize brightness
+- Optional lens distortion correction
+
+Stage 3 – Feature Extraction
+- ORB / FAST features for SLAM
+- Keypoint detection
+- Feature descriptor generation
+
+Stage 4 – Object Classification
+- YOLO-class lightweight model
+- Detect:
+    - Human
+    - Obstacle
+    - Vehicle
+    - Dock marker
+    - Unknown object
+
+Stage 5 – Terrain Segmentation
+- Depth + RGB fusion
+- Classify:
+    - Flat
+    - Inclined
+    - Stair
+    - Uneven
+    - Drop-off
+
+Stage 6 – Output Packaging
+- Publish detection list
+- Publish terrain tags
+- Publish confidence score
+- Publish bounding boxes
+
+------------------------------------------------------------
+4. PERFORMANCE TARGETS
+------------------------------------------------------------
+
+Target Inference Rate:
+≥15 FPS sustained
+
+Max Latency:
+≤100 ms perception loop
+
+Adaptive scaling:
+
+If thermal rises:
+Reduce inference resolution.
+
+------------------------------------------------------------
+5. DOCK DETECTION
+------------------------------------------------------------
+
+Dock marker:
+AprilTag-based detection
+
+Pipeline:
+
+- Detect AprilTag
+- Estimate relative pose
+- Hand off to Docking module
+
+Dock alignment transitions to precision mode.
+
+------------------------------------------------------------
+6. TARGET TRACKING
+------------------------------------------------------------
+
+If FOLLOW mode active:
+
+- Lock bounding box to tracked object
+- Use depth to estimate distance
+- Smooth trajectory via Kalman filter
+
+Reactive layer maintains safe distance.
+
+------------------------------------------------------------
+7. FAILURE HANDLING
+------------------------------------------------------------
+
+If camera stream lost:
+
+- Log error
+- Reduce perception confidence
+- Disable aggression mode
+
+If depth stream lost:
+
+- Disable stair mode
+- Avoid low-clearance areas
+
+------------------------------------------------------------
+8. DESIGN PRIORITIES
+------------------------------------------------------------
+
+1. Low latency
+2. Stable detection
+3. Confidence scoring
+4. Thermal-aware scaling
+5. Seamless integration with SLAM
+
+------------------------------------------------------------
+9. SYSTEM SIGNATURE
+------------------------------------------------------------
+
+OpenCV pipeline is:
+
+- Modular
+- GPU-accelerated
+- Energy-aware
+- Confidence-weighted
+- Integrated with navigation and mission layers
+
+------------------------------------------------------------
+END OF OPENCV PIPELINE
+------------------------------------------------------------

@@ -1,0 +1,149 @@
+OBSIDIan-8 V3 – ROS2 NODE GRAPH
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. OVERVIEW
+------------------------------------------------------------
+
+ROS2 is used as distributed middleware.
+
+It provides:
+
+- Node isolation
+- Message passing
+- Topic-based communication
+- Service calls
+- Action interfaces
+
+ROS2 does NOT control hardware directly.
+Hardware control passes through Duet and Maestro layers.
+
+------------------------------------------------------------
+2. PRIMARY NODES (JETSON)
+------------------------------------------------------------
+
+perception_node
+- Subscribes: camera streams
+- Publishes: detections, terrain tags, SLAM features
+
+slam_node
+- Subscribes: feature stream, IMU
+- Publishes: pose estimate, map updates
+
+gps_fusion_node
+- Subscribes: RTK data, IMU
+- Publishes: fused global pose
+
+spatial_planner_node
+- Subscribes: pose, map, terrain tags
+- Publishes: planned path
+
+reactive_bridge_node
+- Subscribes: IMU, current, voltage
+- Publishes: gait adjustment commands
+
+mission_governor_node
+- Subscribes: system state
+- Publishes: mission intent
+
+docking_node
+- Subscribes: dock detection
+- Publishes: fine alignment commands
+
+swarm_node
+- Subscribes: global pose
+- Publishes: sector data
+
+------------------------------------------------------------
+3. DUET BRIDGE NODE
+------------------------------------------------------------
+
+duet_interface_node
+
+Responsibilities:
+- Receive gait targets
+- Send servo targets to Maestro
+- Poll hardware sensors
+- Publish hardware status
+
+------------------------------------------------------------
+4. MESSAGE FLOW MODEL
+------------------------------------------------------------
+
+Sensors →
+perception_node →
+slam_node →
+gps_fusion_node →
+spatial_planner_node →
+mission_governor_node →
+reactive_bridge_node →
+duet_interface_node →
+Maestro
+
+Parallel:
+Pi watchdog monitors system independently.
+
+------------------------------------------------------------
+5. TOPIC STRUCTURE (EXAMPLE)
+------------------------------------------------------------
+
+/obsidian/pose
+/obsidian/global_pose
+/obsidian/terrain
+/obsidian/gait_command
+/obsidian/system_state
+/obsidian/dock_status
+/obsidian/swarm_data
+
+------------------------------------------------------------
+6. HEARTBEAT TOPIC
+------------------------------------------------------------
+
+/obsidian/heartbeat
+
+Published at:
+≤100 ms interval
+
+Consumed by:
+Pi watchdog
+
+Missed >500 ms → fault escalation.
+
+------------------------------------------------------------
+7. NODE DESIGN RULES
+------------------------------------------------------------
+
+- No node may directly command servo PWM.
+- Only duet_interface_node communicates with Maestro.
+- Reactive layer may override mission layer.
+- Mission layer never overrides reactive safety.
+
+------------------------------------------------------------
+8. PERFORMANCE TARGETS
+------------------------------------------------------------
+
+Perception loop:
+≤100 ms latency
+
+Planning loop:
+≤200 ms update
+
+Reactive loop:
+≤20 ms evaluation
+
+------------------------------------------------------------
+9. SYSTEM SIGNATURE
+------------------------------------------------------------
+
+OBSIDIan-8 ROS2 architecture:
+
+- Modular
+- Layered
+- Authority-separated
+- Hardware-isolated
+- Fault-aware
+
+------------------------------------------------------------
+END OF ROS2 NODE GRAPH
+------------------------------------------------------------

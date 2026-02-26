@@ -1,0 +1,72 @@
+OBSIDIAN-8 V3
+Phase_6_Decommissioning.txt
+Revision: V3.2
+Status: Authoritative
+
+------------------------------------------------------------
+1. PURPOSE
+------------------------------------------------------------
+
+Define controlled retirement and disposal process
+for OBSIDIAN-8 V3 units.
+
+------------------------------------------------------------
+2. TRIGGER CONDITIONS
+------------------------------------------------------------
+
+Decommissioning initiated when:
+
+- End-of-life reached
+- Structural integrity compromised
+- Upgrade no longer feasible
+- Regulatory requirement mandates retirement
+
+------------------------------------------------------------
+3. DATA HANDLING
+------------------------------------------------------------
+
+Before retirement:
+
+- Backup logs
+- Remove credentials
+- Wipe storage media
+- Archive configuration record
+
+------------------------------------------------------------
+4. HARDWARE DISPOSITION
+------------------------------------------------------------
+
+- Battery removed and processed per lithium regulations
+- Electronics recycled per compliance requirements
+- Frame components recycled or scrapped
+
+------------------------------------------------------------
+5. SERIAL RECORD UPDATE
+------------------------------------------------------------
+
+Unit record must be marked:
+
+DECOMMISSIONED
+
+Include:
+
+- Date
+- Reason
+- Disposition method
+
+------------------------------------------------------------
+6. SAFETY REQUIREMENTS
+------------------------------------------------------------
+
+Servo rail must be permanently disabled.
+Battery must be electrically isolated.
+
+------------------------------------------------------------
+7. EXIT CONDITION
+------------------------------------------------------------
+
+Unit removed from active fleet registry.
+
+------------------------------------------------------------
+END OF FILE
+------------------------------------------------------------

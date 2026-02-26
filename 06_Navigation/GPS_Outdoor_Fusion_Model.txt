@@ -1,0 +1,179 @@
+OBSIDIAN-8 V3 – GPS OUTDOOR FUSION MODEL
+Revision: V3.0
+Status: Baseline Locked
+
+------------------------------------------------------------
+1. SYSTEM OVERVIEW
+------------------------------------------------------------
+
+OBSIDIan-8 V3 operates in hybrid navigation mode:
+
+Indoor:
+SLAM-dominant navigation
+
+Outdoor:
+RTK GPS-dominant navigation
+
+Hybrid transitions require dynamic fusion.
+
+------------------------------------------------------------
+2. RTK HARDWARE MODEL
+------------------------------------------------------------
+
+GNSS Module:
+u-blox F9P class (dual-band L1/L2)
+
+Precision:
+Centimeter-level with RTK correction
+
+Correction Source:
+- Local base station (preferred)
+OR
+- NTRIP network service
+
+Antenna Placement:
+Top of head module
+Clear sky exposure required
+EMI shielding from compute stack
+
+------------------------------------------------------------
+3. SENSOR FUSION STACK
+------------------------------------------------------------
+
+Inputs:
+
+- RTK GPS (absolute position)
+- IMU (orientation + acceleration)
+- Wheel-less kinematic model (leg odometry)
+- SLAM pose estimate
+
+Fusion Method:
+
+Extended Kalman Filter (EKF)
+or
+Factor graph optimization (future upgrade)
+
+------------------------------------------------------------
+4. NAVIGATION MODES
+------------------------------------------------------------
+
+Mode 1 – Indoor Mode
+
+Primary Source:
+SLAM
+
+GPS ignored or low-weighted.
+
+------------------------------------------------------------
+
+Mode 2 – Outdoor Mode
+
+Primary Source:
+RTK GPS
+
+SLAM assists in obstacle mapping.
+
+------------------------------------------------------------
+
+Mode 3 – Transitional Mode
+
+Both GPS and SLAM weighted dynamically.
+
+Weighting based on:
+
+- Satellite signal strength
+- SLAM confidence
+- IMU stability
+- Motion speed
+
+------------------------------------------------------------
+5. POSITION CONFIDENCE MODEL
+------------------------------------------------------------
+
+RTK Confidence States:
+
+- FIXED (centimeter precision)
+- FLOAT (decimeter precision)
+- SINGLE (meter precision)
+
+Mission layer reduces speed if:
+
+RTK status drops below FIXED during precision operations.
+
+------------------------------------------------------------
+6. MAP PERSISTENCE MODEL
+------------------------------------------------------------
+
+Outdoor map:
+
+Stored in global coordinate system (WGS84 / UTM).
+
+Indoor map:
+
+Local SLAM coordinate system.
+
+Fusion:
+
+Indoor maps anchored to GPS coordinate when exiting building.
+
+Allows seamless hybrid operation.
+
+------------------------------------------------------------
+7. SWARM IMPLICATIONS
+------------------------------------------------------------
+
+With RTK:
+
+Multiple OBSIDIAN units share:
+
+- Exact global coordinates
+- Non-overlapping patrol sectors
+- Coordinated movement boundaries
+
+Swarm synchronization uses GPS time reference.
+
+------------------------------------------------------------
+8. FAILURE HANDLING
+------------------------------------------------------------
+
+If RTK signal lost:
+
+Fallback to SLAM + IMU dead-reckoning.
+
+If both degraded:
+
+Reduce speed.
+Enter safe patrol mode.
+Avoid high-risk maneuvers.
+
+------------------------------------------------------------
+9. DESIGN PRIORITIES
+------------------------------------------------------------
+
+1. Seamless indoor/outdoor transition
+2. GPS accuracy validation
+3. Dynamic confidence weighting
+4. Mission scaling with position certainty
+5. Swarm-ready coordinate alignment
+
+------------------------------------------------------------
+10. SYSTEM SIGNATURE
+------------------------------------------------------------
+
+OBSIDIan-8 V3 does not rely on GPS alone.
+
+It uses:
+
+Absolute positioning (RTK)
++
+Relative positioning (SLAM)
++
+Inertial stability (IMU)
++
+Kinematic prediction (leg odometry)
+
+Hybrid navigation ensures robustness.
+
+------------------------------------------------------------
+END OF GPS OUTDOOR FUSION MODEL
+------------------------------------------------------------
